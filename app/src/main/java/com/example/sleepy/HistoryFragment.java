@@ -46,7 +46,7 @@ public class HistoryFragment extends Fragment {
     private MaterialButton btnNextMonth;
 
     private int displayYear;
-    private int displayMonth; // 1..12
+    private int displayMonth; 
 
     public HistoryFragment() {
     }
