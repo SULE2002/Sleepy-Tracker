@@ -3,11 +3,6 @@ package com.example.sleepy;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.view.Gravity;
-import android.widget.EditText;
-import java.lang.reflect.Field;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -546,14 +541,6 @@ public class HomeFragment extends Fragment {
         pickerMinute.setValue(savedMinute);
         pickerAmPm.setValue(savedHour >= 12 ? 1 : 0);
 
-        styleNumberPicker(pickerHour);
-        styleNumberPicker(pickerMinute);
-        styleNumberPicker(pickerAmPm);
-
-        pickerHour.setOnValueChangedListener((picker, oldVal, newVal) -> picker.post(() -> styleNumberPicker(picker)));
-        pickerMinute.setOnValueChangedListener((picker, oldVal, newVal) -> picker.post(() -> styleNumberPicker(picker)));
-        pickerAmPm.setOnValueChangedListener((picker, oldVal, newVal) -> picker.post(() -> styleNumberPicker(picker)));
-
         btnCancel.setOnClickListener(v -> dialog.dismiss());
 
         btnSave.setOnClickListener(v -> {
@@ -578,9 +565,6 @@ public class HomeFragment extends Fragment {
         });
 
         dialog.show();
-        pickerHour.postDelayed(() -> styleNumberPicker(pickerHour), 100);
-        pickerMinute.postDelayed(() -> styleNumberPicker(pickerMinute), 100);
-        pickerAmPm.postDelayed(() -> styleNumberPicker(pickerAmPm), 100);
     }
 
     private void turnOffReminder() {
@@ -625,44 +609,6 @@ public class HomeFragment extends Fragment {
         return String.format(Locale.getDefault(), "%d:%02d %s", displayHour, minute, amPm);
     }
 
-    private void styleNumberPicker(NumberPicker numberPicker) {
-        try {
-            numberPicker.setBackgroundColor(Color.rgb(241, 241, 241));
-
-            Field field = NumberPicker.class.getDeclaredField("mSelectorWheelPaint");
-            field.setAccessible(true);
-
-            Paint paint = (Paint) field.get(numberPicker);
-            if (paint != null) {
-                paint.setColor(Color.BLACK);
-                paint.setTextSize(58f);
-                paint.setFakeBoldText(true);
-            }
-
-            for (int i = 0; i < numberPicker.getChildCount(); i++) {
-                View child = numberPicker.getChildAt(i);
-
-                if (child instanceof EditText) {
-                    EditText editText = (EditText) child;
-                    editText.setTextColor(Color.BLACK);
-                    editText.setTextSize(24f);
-                    editText.setGravity(Gravity.CENTER);
-                    editText.setBackgroundColor(Color.TRANSPARENT);
-                    editText.setAlpha(1f);
-                    editText.setEnabled(true);
-                    editText.setFocusable(false);
-                    editText.setFocusableInTouchMode(false);
-                    editText.setCursorVisible(false);
-                }
-            }
-
-            numberPicker.invalidate();
-            numberPicker.requestLayout();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     private static class WeekStats {
         int veryGood = 0;
