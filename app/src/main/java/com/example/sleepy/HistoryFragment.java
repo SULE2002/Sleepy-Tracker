@@ -46,7 +46,7 @@ public class HistoryFragment extends Fragment {
     private MaterialButton btnNextMonth;
 
     private int displayYear;
-    private int displayMonth; // 1..12
+    private int displayMonth;
 
     public HistoryFragment() {
     }
@@ -261,7 +261,7 @@ public class HistoryFragment extends Fragment {
         cal.set(Calendar.MONTH, displayMonth - 1);
         cal.set(Calendar.DAY_OF_MONTH, 1);
 
-        int firstDayOfWeek = cal.get(Calendar.DAY_OF_WEEK); // Sunday = 1
+        int firstDayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
         int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
         int blanks = firstDayOfWeek - 1;
